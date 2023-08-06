@@ -1,0 +1,97 @@
+%% Hypergraph Stability
+%
+%   This file demonstrates how the stability of continuous-time, uniform 
+%   hypergraph dynamics, which are classically fixed degree polynomials or
+%   multilinear systems is preserved under the tensor Kronecker product.
+%
+% Auth: Joshua Pickard
+%       jpic@umich.edu
+% Date: August 6, 2023
+
+%% Construct Base System
+
+clear; clc; close all;
+
+A11 = [-1.2593 0.5534;
+        0.5543 -0.5185];
+A12 = [0.5543 -0.5185;
+       -0.5185 -0.1386];
+A21 = [0.5543 -0.5185;
+       -0.5185 -0.1386];
+A22 = [-0.5185 -0.1386;
+       -0.1386 -0.7037];
+
+A = zeros(2,2,2,2);
+A(:,:,1,1) = A11;
+A(:,:,1,2) = A12;
+A(:,:,2,1) = A21;
+A(:,:,2,2) = A22;
+
+clearvars -except A
+
+%% Generate Figure
+set(groot, 'DefaultFigureRenderer', 'painters');
+figure('Renderer', 'painters', 'Position', [0 0 1350 400]);
+fs = 18;
+tiledlayout(1,3);
+
+% Simulate/Integrate a Trajectory on the Base System
+rng(1)
+
+T = 10000; n1=2;
+s1 = 1;
+
+t1 = [0:(T-1)] * s1;
+X1 = zeros(T, n1);  X1(1,:) = s1 * rand(n1,1) - (s1/2);
+for t=2:T
+    X1(t,:) = X1(t-1,:)' + s1 * ttvk(tensor(A), X1(t-1,:)');
+end
+
+nexttile;
+plot(t1, X1); ylabel('State'); xlabel('Time'); title('Example Trajectory of $\dot{\mathbf{x}}=\textsf{B}\mathbf{x}^3$','interpreter','latex');
+set(gca, 'FontSize', fs, 'TickLabelInterpreter', 'latex');
+set(gca, 'XScale', 'log');
+% set(gca, 'YScale', 'log');
+
+% Stable Vector Field
+llim = -10;
+ulim = 10;
+spacing = 2;
+[X,Y] = meshgrid(llim:spacing:ulim);
+DX = zeros(size(X)); DY = zeros(size(Y));
+for i=1:length(X)
+    for j=1:length(X)
+        v = 2 * ttvk(tensor(A), [X(i,j) Y(i,j)]');
+        DX(i,j) = v(1);
+        DY(i,j) = v(2);
+    end
+end
+
+nexttile;
+quiver(X,Y,DX,DY); hold on; title('Vector Field of $\dot{\mathbf{x}}=\textsf{B}\mathbf{x}^3$','interpreter','latex');
+xlabel('$x_1$','interpreter','latex'); ylabel('$x_2$','interpreter','latex');
+axis square
+set(gca, 'FontSize', fs, 'TickLabelInterpreter', 'latex');
+
+% Unstable Vector Field
+B = superkron(A,A);
+spacing = 4;
+[X,Y,Z] = meshgrid(llim:spacing:ulim);
+DX = zeros(size(X)); DY = zeros(size(Y)); DZ = zeros(size(Z));
+for i=1:length(X)
+    for j=1:length(X)
+        for k=1:length(X)
+            v = 2 * ttvk(tensor(B), [X(i,j,k) Y(i,j,k) Z(i,j,k) 0]');
+            DX(i,j,k) = v(1);
+            DY(i,j,k) = v(2);
+            DZ(i,j,k) = v(3);
+        end
+    end
+end
+nexttile;
+quiver3(X,Y,Z,DX,DY,DZ); hold on; title('Vector Field of $\dot{\mathbf{x}}=\textsf{A}\mathbf{x}^3$ when $\mathbf{x}_4=0$','interpreter','latex');
+xlabel('$x_1$','interpreter','latex'); ylabel('$x_2$','interpreter','latex'); zlabel('$x_3$','interpreter','latex');
+set(gca,'TickLabelInterpreter','latex')
+set(gca, 'FontSize', fs, 'TickLabelInterpreter', 'latex');
+
+saveas(gcf, 'stableUnstableExample_vf.png')

@@ -61,16 +61,19 @@ for i=1:n
 
         tic;
         Bc = cp_als(tensor(B), r);  % time CPD of B
-        tB(i,j) = toc;
-        tic;
         Cc = cp_als(tensor(C), r);  % time CPD of C
+        % reconstruct CPD of A
+        e = kron(Bc.lambda, Cc.lambda);
+        for l=1:length(Bc.U)
+            e = kron(Bc.U{l}, Cc.U{l});
+        end
         tC(i,j) = toc;
         tic;
         Ac = cp_als(tensor(A), r^2);% time CPD of A
         tA(i,j) = toc;
     end
 end
-tt_CPD = tB + tC;   % rename and sum total time for the Kronecker CPD
+tt_CPD = tC;        % rename and sum total time for the Kronecker CPD
 tA_CPD = tA;        % rename time variable for A
 
 save("out_cpd_experiment.mat");

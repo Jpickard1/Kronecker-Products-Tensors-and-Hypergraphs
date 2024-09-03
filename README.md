@@ -2,7 +2,7 @@
 
 ---
 
-This repository contains all relevant materials for the paper [Kronecker Products of Tensors and Hypergraphs: Structure and Dynamics](https://arxiv.org/abs/2305.03875) including the software, experiment code, experiment output, and all relevant references.
+This repository contains all relevant materials for the paper [Kronecker Products of Tensors and Hypergraphs: Structure and Dynamics]([https://arxiv.org/abs/2305.03875](https://epubs.siam.org/doi/full/10.1137/23M1592547) including the software, experiment code, experiment output, and relevant references.
 
 Software Dependencies:
 - [Hypergraph Analysis Toolbox](hypergraph-analysis-toolbox.readthedocs.io/en/latest/)
@@ -13,10 +13,15 @@ Authors: Joshua Pickard (jpic@umich.edu), [Can Chen](https://scholar.google.com/
 ## Cite As:
 
 ```
-@article{pickard2023kronecker,
-    title={Kronecker Product of Tensors and Hypergraphs: Structure and Dynamics},
-    author={Pickard, Joshua and Stansbury, Cooper and Chen, Can and Surana, Amit and Bloch, Anthony and Rajapakse, Indika},
-    journal={to appear in SIMAX, arXiv preprint arXiv:2305.03875},
-    year={2023}
+@article{pickard2024kronecker,
+    author   = {Pickard, Joshua and Chen, Can and Stansbury, Cooper and Surana, Amit and Bloch, Anthony M. and Rajapakse, Indika},
+    title    = {Kronecker Product of Tensors and Hypergraphs: Structure and Dynamics},
+    journal  = {SIAM Journal on Matrix Analysis and Applications},
+    volume   = {45},
+    number   = {3},
+    pages    = {1621-1642},
+    year     = {2024},
+    doi      = {10.1137/23M1592547},
+    URL      = {https://doi.org/10.1137/23M1592547},
 }
 ```

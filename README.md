@@ -2,7 +2,7 @@
 
 ---
 
-This repository contains all relevant materials for the paper [Kronecker Products of Tensors and Hypergraphs: Structure and Dynamics]([https://arxiv.org/abs/2305.03875](https://epubs.siam.org/doi/full/10.1137/23M1592547) including the software, experiment code, experiment output, and relevant references.
+This repository contains all relevant materials for the paper [Kronecker Products of Tensors and Hypergraphs: Structure and Dynamics](https://epubs.siam.org/doi/full/10.1137/23M1592547) including the software, experiment code, experiment output, and relevant references.
 
 Software Dependencies:
 - [Hypergraph Analysis Toolbox](hypergraph-analysis-toolbox.readthedocs.io/en/latest/)
